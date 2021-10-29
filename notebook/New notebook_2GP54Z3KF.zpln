@@ -1,0 +1,945 @@
+{
+  "paragraphs": [
+    {
+      "text": "import org.apache.spark.sql.functions\nimport org.apache.spark.sql.expressions._\nimport spark.implicits._",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:03:54.306",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import org.apache.spark.sql.functions\nimport org.apache.spark.sql.expressions._\nimport spark.implicits._\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635508767687_1896196483",
+      "id": "paragraph_1635508767687_1896196483",
+      "dateCreated": "2021-10-29 11:59:27.687",
+      "dateStarted": "2021-10-29 15:03:54.328",
+      "dateFinished": "2021-10-29 15:03:55.036",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val df \u003d spark.read\r\n  .option(\"header\", \"true\")\r\n  .option(\"inferSchema\", \"true\")\r\n  .csv(\"/notebook/tripadvisor_hotel_reviews.csv\")\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:03:56.675",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [Review: string, Rating: int]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://90314f033e01:4040/jobs/job?id\u003d80"
+            },
+            {
+              "jobUrl": "http://90314f033e01:4040/jobs/job?id\u003d81"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635505295073_517711081",
+      "id": "paragraph_1635505295073_517711081",
+      "dateCreated": "2021-10-29 11:01:35.074",
+      "dateStarted": "2021-10-29 15:03:56.700",
+      "dateFinished": "2021-10-29 15:03:57.295",
+      "status": "FINISHED"
+    },
+    {
+      "text": "df.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:03:58.696",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+------+\n|              Review|Rating|\n+--------------------+------+\n|nice hotel expens...|     4|\n|ok nothing specia...|     2|\n|nice rooms not 4*...|     3|\n|unique, great sta...|     5|\n|great stay great ...|     5|\n|love monaco staff...|     5|\n|cozy stay rainy c...|     5|\n|excellent staff, ...|     4|\n|hotel stayed hote...|     5|\n|excellent stayed ...|     5|\n|poor value stayed...|     2|\n|nice value seattl...|     4|\n|nice hotel good l...|     4|\n|nice hotel not ni...|     3|\n|great hotel night...|     4|\n|horrible customer...|     1|\n|disappointed say ...|     2|\n|fantastic stay mo...|     5|\n|good choice hotel...|     5|\n|hmmmmm say really...|     3|\n+--------------------+------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://90314f033e01:4040/jobs/job?id\u003d82"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635507456454_2072768895",
+      "id": "paragraph_1635507456454_2072768895",
+      "dateCreated": "2021-10-29 11:37:36.454",
+      "dateStarted": "2021-10-29 15:03:58.716",
+      "dateFinished": "2021-10-29 15:03:58.963",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val dfLower \u003d df\r\n    .withColumn(\"ReviewLower\", lower(col(\"Review\")))\r\ndfLower.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:04:02.907",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+------+--------------------+\n|              Review|Rating|         ReviewLower|\n+--------------------+------+--------------------+\n|nice hotel expens...|     4|nice hotel expens...|\n|ok nothing specia...|     2|ok nothing specia...|\n|nice rooms not 4*...|     3|nice rooms not 4*...|\n|unique, great sta...|     5|unique, great sta...|\n|great stay great ...|     5|great stay great ...|\n|love monaco staff...|     5|love monaco staff...|\n|cozy stay rainy c...|     5|cozy stay rainy c...|\n|excellent staff, ...|     4|excellent staff, ...|\n|hotel stayed hote...|     5|hotel stayed hote...|\n|excellent stayed ...|     5|excellent stayed ...|\n|poor value stayed...|     2|poor value stayed...|\n|nice value seattl...|     4|nice value seattl...|\n|nice hotel good l...|     4|nice hotel good l...|\n|nice hotel not ni...|     3|nice hotel not ni...|\n|great hotel night...|     4|great hotel night...|\n|horrible customer...|     1|horrible customer...|\n|disappointed say ...|     2|disappointed say ...|\n|fantastic stay mo...|     5|fantastic stay mo...|\n|good choice hotel...|     5|good choice hotel...|\n|hmmmmm say really...|     3|hmmmmm say really...|\n+--------------------+------+--------------------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mdfLower\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [Review: string, Rating: int ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://90314f033e01:4040/jobs/job?id\u003d83"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635505297014_1578352092",
+      "id": "paragraph_1635505297014_1578352092",
+      "dateCreated": "2021-10-29 11:01:37.014",
+      "dateStarted": "2021-10-29 15:04:02.927",
+      "dateFinished": "2021-10-29 15:04:03.193",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val dfLowerCleared \u003d dfLower\n    .withColumn(\"ReviewLowerClear\", split(functions.regexp_replace(col(\"ReviewLower\"), \"[^a-z0-9 ]\", \"\"), \" \"))\ndfLowerCleared.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:04:06.002",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9.0,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+------+--------------------+--------------------+\n|              Review|Rating|         ReviewLower|    ReviewLowerClear|\n+--------------------+------+--------------------+--------------------+\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|\n|ok nothing specia...|     2|ok nothing specia...|[ok, nothing, spe...|\n|nice rooms not 4*...|     3|nice rooms not 4*...|[nice, rooms, not...|\n|unique, great sta...|     5|unique, great sta...|[unique, great, s...|\n|great stay great ...|     5|great stay great ...|[great, stay, gre...|\n|love monaco staff...|     5|love monaco staff...|[love, monaco, st...|\n|cozy stay rainy c...|     5|cozy stay rainy c...|[cozy, stay, rain...|\n|excellent staff, ...|     4|excellent staff, ...|[excellent, staff...|\n|hotel stayed hote...|     5|hotel stayed hote...|[hotel, stayed, h...|\n|excellent stayed ...|     5|excellent stayed ...|[excellent, staye...|\n|poor value stayed...|     2|poor value stayed...|[poor, value, sta...|\n|nice value seattl...|     4|nice value seattl...|[nice, value, sea...|\n|nice hotel good l...|     4|nice hotel good l...|[nice, hotel, goo...|\n|nice hotel not ni...|     3|nice hotel not ni...|[nice, hotel, not...|\n|great hotel night...|     4|great hotel night...|[great, hotel, ni...|\n|horrible customer...|     1|horrible customer...|[horrible, custom...|\n|disappointed say ...|     2|disappointed say ...|[disappointed, sa...|\n|fantastic stay mo...|     5|fantastic stay mo...|[fantastic, stay,...|\n|good choice hotel...|     5|good choice hotel...|[good, choice, ho...|\n|hmmmmm say really...|     3|hmmmmm say really...|[hmmmmm, say, rea...|\n+--------------------+------+--------------------+--------------------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mdfLowerCleared\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [Review: string, Rating: int ... 2 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://90314f033e01:4040/jobs/job?id\u003d84"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635508412291_2134441913",
+      "id": "paragraph_1635508412291_2134441913",
+      "dateCreated": "2021-10-29 11:53:32.297",
+      "dateStarted": "2021-10-29 15:04:06.019",
+      "dateFinished": "2021-10-29 15:04:06.219",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val dfPrepared \u003d dfLowerCleared.withColumn(\"index\", monotonically_increasing_id())",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:04:09.339",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mdfPrepared\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [Review: string, Rating: int ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635513970749_1859982704",
+      "id": "paragraph_1635513970749_1859982704",
+      "dateCreated": "2021-10-29 13:26:10.750",
+      "dateStarted": "2021-10-29 15:04:09.357",
+      "dateFinished": "2021-10-29 15:04:09.475",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val dfPrepared2 \u003d dfPrepared\n  .withColumn(\"WordСount\", size(col(\"ReviewLowerClear\")))\ndfPrepared2.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:04:10.898",
+      "progress": 100,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+------+--------------------+--------------------+-----+---------+\n|              Review|Rating|         ReviewLower|    ReviewLowerClear|index|WordСount|\n+--------------------+------+--------------------+--------------------+-----+---------+\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|\n|ok nothing specia...|     2|ok nothing specia...|[ok, nothing, spe...|    1|      252|\n|nice rooms not 4*...|     3|nice rooms not 4*...|[nice, rooms, not...|    2|      219|\n|unique, great sta...|     5|unique, great sta...|[unique, great, s...|    3|       91|\n|great stay great ...|     5|great stay great ...|[great, stay, gre...|    4|      193|\n|love monaco staff...|     5|love monaco staff...|[love, monaco, st...|    5|      136|\n|cozy stay rainy c...|     5|cozy stay rainy c...|[cozy, stay, rain...|    6|      103|\n|excellent staff, ...|     4|excellent staff, ...|[excellent, staff...|    7|       87|\n|hotel stayed hote...|     5|hotel stayed hote...|[hotel, stayed, h...|    8|       61|\n|excellent stayed ...|     5|excellent stayed ...|[excellent, staye...|    9|       37|\n|poor value stayed...|     2|poor value stayed...|[poor, value, sta...|   10|       49|\n|nice value seattl...|     4|nice value seattl...|[nice, value, sea...|   11|       54|\n|nice hotel good l...|     4|nice hotel good l...|[nice, hotel, goo...|   12|       86|\n|nice hotel not ni...|     3|nice hotel not ni...|[nice, hotel, not...|   13|       72|\n|great hotel night...|     4|great hotel night...|[great, hotel, ni...|   14|       29|\n|horrible customer...|     1|horrible customer...|[horrible, custom...|   15|      216|\n|disappointed say ...|     2|disappointed say ...|[disappointed, sa...|   16|      244|\n|fantastic stay mo...|     5|fantastic stay mo...|[fantastic, stay,...|   17|      146|\n|good choice hotel...|     5|good choice hotel...|[good, choice, ho...|   18|       24|\n|hmmmmm say really...|     3|hmmmmm say really...|[hmmmmm, say, rea...|   19|      158|\n+--------------------+------+--------------------+--------------------+-----+---------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mdfPrepared2\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [Review: string, Rating: int ... 4 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://90314f033e01:4040/jobs/job?id\u003d85"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635514682640_1350416301",
+      "id": "paragraph_1635514682640_1350416301",
+      "dateCreated": "2021-10-29 13:38:02.640",
+      "dateStarted": "2021-10-29 15:04:10.915",
+      "dateFinished": "2021-10-29 15:04:11.126",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val dfWords\u003d dfPrepared2\n  .withColumn(\"Word\", explode(col(\"ReviewLowerClear\")))",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:04:13.488",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mdfWords\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [Review: string, Rating: int ... 5 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635515470583_293287739",
+      "id": "paragraph_1635515470583_293287739",
+      "dateCreated": "2021-10-29 13:51:10.583",
+      "dateStarted": "2021-10-29 15:04:13.502",
+      "dateFinished": "2021-10-29 15:04:13.653",
+      "status": "FINISHED"
+    },
+    {
+      "text": "dfWords.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:04:16.227",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+------+--------------------+--------------------+-----+---------+-----------+\n|              Review|Rating|         ReviewLower|    ReviewLowerClear|index|WordСount|       Word|\n+--------------------+------+--------------------+--------------------+-----+---------+-----------+\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|       nice|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|      hotel|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|  expensive|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|    parking|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|        got|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|       good|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|       deal|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|       stay|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|      hotel|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|anniversary|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|    arrived|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|       late|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|    evening|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|       took|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|     advice|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|   previous|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|    reviews|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|        did|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|      valet|\n|nice hotel expens...|     4|nice hotel expens...|[nice, hotel, exp...|    0|       89|    parking|\n+--------------------+------+--------------------+--------------------+-----+---------+-----------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://90314f033e01:4040/jobs/job?id\u003d86"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635515547171_1492991074",
+      "id": "paragraph_1635515547171_1492991074",
+      "dateCreated": "2021-10-29 13:52:27.171",
+      "dateStarted": "2021-10-29 15:04:16.243",
+      "dateFinished": "2021-10-29 15:04:16.441",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val dfReviewWordCnt \u003d dfWords\n  .groupBy(\"index\", \"Word\")\n  .agg(\n    count(\"ReviewLowerClear\") as \"TermCount\",\n    first(\"WordСount\") as \"WordСount\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:04:18.506",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mdfReviewWordCnt\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [index: bigint, Word: string ... 2 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635515627130_2121702917",
+      "id": "paragraph_1635515627130_2121702917",
+      "dateCreated": "2021-10-29 13:53:47.132",
+      "dateStarted": "2021-10-29 15:04:18.529",
+      "dateFinished": "2021-10-29 15:04:18.760",
+      "status": "FINISHED"
+    },
+    {
+      "text": "dfReviewWordCnt.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 16:11:29.669",
+      "progress": 20,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "keys": [
+                {
+                  "name": "index",
+                  "index": 0.0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "TermCount",
+                  "index": 2.0,
+                  "aggr": "avg"
+                }
+              ],
+              "setting": {
+                "lineChart": {}
+              },
+              "mode": "table"
+            }
+          }
+        },
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {
+          "bdtMeta": {
+            "inlay": {
+              "size": {
+                "height": 200.0
+              },
+              "state": {
+                "currentPage": "Table"
+              }
+            }
+          }
+        },
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+----------+---------+---------+\n|index|      Word|TermCount|WordСount|\n+-----+----------+---------+---------+\n|    0|      room|        3|       89|\n|    1|    better|        2|      252|\n|    6|attractive|        1|      103|\n|    6|  positive|        1|      103|\n|    7| concierge|        2|       87|\n|   10|        nt|        2|       49|\n|   12|     clean|        1|       86|\n|   12|   concert|        1|       86|\n|   15|      stay|        2|      216|\n|   16|      desk|        6|      244|\n|   19|       bed|        1|      158|\n|   30| excellent|        1|       39|\n|   32|    really|        1|       88|\n|   44| cringeshe|        1|       39|\n|   46|      mind|        1|       72|\n|   51|    pretty|        1|       86|\n|   52|     steer|        1|       66|\n|   54|     tacky|        1|      133|\n|   58|   staying|        1|       38|\n|   63|       etc|        1|      100|\n+-----+----------+---------+---------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://90314f033e01:4040/jobs/job?id\u003d87"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635516494019_1815580090",
+      "id": "paragraph_1635516494019_1815580090",
+      "dateCreated": "2021-10-29 14:08:14.019",
+      "dateStarted": "2021-10-29 15:04:21.058",
+      "dateFinished": "2021-10-29 15:04:25.418",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val dfWordTF \u003d dfReviewWordCnt.withColumn(\"TermFreq\", col(\"TermCount\") / col(\"WordСount\"))\ndfWordTF.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:04:26.626",
+      "progress": 20,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+-----+----------+---------+---------+--------------------+\n|index|      Word|TermCount|WordСount|            TermFreq|\n+-----+----------+---------+---------+--------------------+\n|    0|      room|        3|       89|0.033707865168539325|\n|    1|    better|        2|      252|0.007936507936507936|\n|    6|attractive|        1|      103|0.009708737864077669|\n|    6|  positive|        1|      103|0.009708737864077669|\n|    7| concierge|        2|       87|0.022988505747126436|\n|   10|        nt|        2|       49| 0.04081632653061224|\n|   12|     clean|        1|       86|0.011627906976744186|\n|   12|   concert|        1|       86|0.011627906976744186|\n|   15|      stay|        2|      216|0.009259259259259259|\n|   16|      desk|        6|      244| 0.02459016393442623|\n|   19|       bed|        1|      158|0.006329113924050633|\n|   30| excellent|        1|       39| 0.02564102564102564|\n|   32|    really|        1|       88|0.011363636363636364|\n|   44| cringeshe|        1|       39| 0.02564102564102564|\n|   46|      mind|        1|       72|0.013888888888888888|\n|   51|    pretty|        1|       86|0.011627906976744186|\n|   52|     steer|        1|       66|0.015151515151515152|\n|   54|     tacky|        1|      133|0.007518796992481203|\n|   58|   staying|        1|       38| 0.02631578947368421|\n|   63|       etc|        1|      100|                0.01|\n+-----+----------+---------+---------+--------------------+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mdfWordTF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [index: bigint, Word: string ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://90314f033e01:4040/jobs/job?id\u003d88"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635515953501_1074898728",
+      "id": "paragraph_1635515953501_1074898728",
+      "dateCreated": "2021-10-29 13:59:13.506",
+      "dateStarted": "2021-10-29 15:04:26.651",
+      "dateFinished": "2021-10-29 15:04:30.642",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val window \u003d Window.orderBy(col(\"DocFreq\").desc)\nval dfWordDF \u003d dfWords\n        .groupBy(\"Word\")\n        .agg(countDistinct(\"index\") as \"DocFreq\")\n        .withColumn(\"row\", row_number.over(window))\n        .where(col(\"row\") \u003c 100)\ndfWordDF.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:04:28.287",
+      "progress": 90,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+---------+-------+---+\n|     Word|DocFreq|row|\n+---------+-------+---+\n|         |  20491|  1|\n|    hotel|  16321|  2|\n|     room|  14053|  3|\n|      not|  12123|  4|\n|    staff|  11522|  5|\n|    great|  11020|  6|\n|     stay|  10095|  7|\n|     good|   9277|  8|\n|   stayed|   8549|  9|\n|       nt|   8379| 10|\n|    rooms|   8338| 11|\n| location|   8165| 12|\n|     just|   7736| 13|\n|    clean|   7649| 14|\n|     nice|   7416| 15|\n|      did|   7204| 16|\n|breakfast|   7111| 17|\n|       no|   6809| 18|\n|    night|   6331| 19|\n|  service|   6228| 20|\n+---------+-------+---+\nonly showing top 20 rows\n\n\u001b[1m\u001b[34mwindow\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.WindowSpec\u001b[0m \u003d org.apache.spark.sql.expressions.WindowSpec@318edf73\n\u001b[1m\u001b[34mdfWordDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.Dataset[org.apache.spark.sql.Row]\u001b[0m \u003d [Word: string, DocFreq: bigint ... 1 more field]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://90314f033e01:4040/jobs/job?id\u003d89"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635516911756_2053397530",
+      "id": "paragraph_1635516911756_2053397530",
+      "dateCreated": "2021-10-29 14:15:11.756",
+      "dateStarted": "2021-10-29 15:04:28.379",
+      "dateFinished": "2021-10-29 15:04:44.538",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val lenDf: Double \u003d dfLowerCleared.count()\ndef getIdf: UserDefinedFunction \u003d {\n    udf((DocFreq: Int) \u003d\u003e {math.log(lenDf / (DocFreq.toDouble + 0.0001)) })\n}\nval dfWordIDF \u003d dfWordDF\n  .withColumn(\"IDF\", getIdf(col(\"DocFreq\")))",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:17:21.446",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mlenDf\u001b[0m: \u001b[1m\u001b[32mDouble\u001b[0m \u003d 20491.0\n\u001b[1m\u001b[34mgetIdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.expressions.UserDefinedFunction\u001b[0m\n\u001b[1m\u001b[34mdfWordIDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [Word: string, DocFreq: bigint ... 2 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://90314f033e01:4040/jobs/job?id\u003d92"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635517694952_603228632",
+      "id": "paragraph_1635517694952_603228632",
+      "dateCreated": "2021-10-29 14:28:14.977",
+      "dateStarted": "2021-10-29 15:17:21.591",
+      "dateFinished": "2021-10-29 15:17:28.327",
+      "status": "FINISHED"
+    },
+    {
+      "text": "dfWordIDF.show",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:17:30.630",
+      "progress": 0,
+      "config": {
+        "colWidth": 12.0,
+        "fontSize": 9.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "org.apache.spark.SparkException: Task not serializable\n  at org.apache.spark.util.ClosureCleaner$.ensureSerializable(ClosureCleaner.scala:403)\n  at org.apache.spark.util.ClosureCleaner$.org$apache$spark$util$ClosureCleaner$$clean(ClosureCleaner.scala:393)\n  at org.apache.spark.util.ClosureCleaner$.clean(ClosureCleaner.scala:162)\n  at org.apache.spark.SparkContext.clean(SparkContext.scala:2326)\n  at org.apache.spark.rdd.RDD$$anonfun$mapPartitionsWithIndex$1.apply(RDD.scala:872)\n  at org.apache.spark.rdd.RDD$$anonfun$mapPartitionsWithIndex$1.apply(RDD.scala:871)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:112)\n  at org.apache.spark.rdd.RDD.withScope(RDD.scala:385)\n  at org.apache.spark.rdd.RDD.mapPartitionsWithIndex(RDD.scala:871)\n  at org.apache.spark.sql.execution.WholeStageCodegenExec.doExecute(WholeStageCodegenExec.scala:630)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:131)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:155)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:152)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.SparkPlan.getByteArrayRdd(SparkPlan.scala:247)\n  at org.apache.spark.sql.execution.SparkPlan.executeTake(SparkPlan.scala:339)\n  at org.apache.spark.sql.execution.CollectLimitExec.executeCollect(limit.scala:38)\n  at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$collectFromPlan(Dataset.scala:3389)\n  at org.apache.spark.sql.Dataset$$anonfun$head$1.apply(Dataset.scala:2550)\n  at org.apache.spark.sql.Dataset$$anonfun$head$1.apply(Dataset.scala:2550)\n  at org.apache.spark.sql.Dataset$$anonfun$52.apply(Dataset.scala:3370)\n  at org.apache.spark.sql.execution.SQLExecution$$anonfun$withNewExecutionId$1.apply(SQLExecution.scala:80)\n  at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:127)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:75)\n  at org.apache.spark.sql.Dataset.withAction(Dataset.scala:3369)\n  at org.apache.spark.sql.Dataset.head(Dataset.scala:2550)\n  at org.apache.spark.sql.Dataset.take(Dataset.scala:2764)\n  at org.apache.spark.sql.Dataset.getRows(Dataset.scala:254)\n  at org.apache.spark.sql.Dataset.showString(Dataset.scala:291)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:751)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:710)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:719)\n  ... 64 elided\nCaused by: java.io.NotSerializableException: org.apache.spark.sql.expressions.WindowSpec\nSerialization stack:\n\t- object not serializable (class: org.apache.spark.sql.expressions.WindowSpec, value: org.apache.spark.sql.expressions.WindowSpec@318edf73)\n\t- field (class: $iw, name: window, type: class org.apache.spark.sql.expressions.WindowSpec)\n\t- object (class $iw, $iw@182b1aae)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@6ba1bde3)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@6f51f5fd)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@42fd020)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@4940cddf)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@60fc33c2)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@23a219b9)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@7fc72e03)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@25df51f6)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@6eb9eb92)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@72f09479)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@4481936f)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@3a3f5574)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@596b7e1e)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@50e082eb)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@51cb5353)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@3aeb3f16)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@2fa3b495)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@773bf6b)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@15da81e0)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@1fa04406)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@49d33336)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@4d7b018)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@66d06edb)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@2cf32366)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@72d26e07)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@5f5bf729)\n\t- field (class: $line322327388368.$read, name: $iw, type: class $iw)\n\t- object (class $line322327388368.$read, $line322327388368.$read@4d508ca1)\n\t- field (class: $iw, name: $line322327388368$read, type: class $line322327388368.$read)\n\t- object (class $iw, $iw@7837d916)\n\t- field (class: $iw, name: $outer, type: class $iw)\n\t- object (class $iw, $iw@1db5893f)\n\t- field (class: $anonfun$getIdf$1, name: $outer, type: class $iw)\n\t- object (class $anonfun$getIdf$1, \u003cfunction1\u003e)\n\t- element of array (index: 3)\n\t- array (class [Ljava.lang.Object;, size 4)\n\t- field (class: org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$13, name: references$1, type: class [Ljava.lang.Object;)\n\t- object (class org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$13, \u003cfunction2\u003e)\n  at org.apache.spark.serializer.SerializationDebugger$.improveException(SerializationDebugger.scala:40)\n  at org.apache.spark.serializer.JavaSerializationStream.writeObject(JavaSerializer.scala:46)\n  at org.apache.spark.serializer.JavaSerializerInstance.serialize(JavaSerializer.scala:100)\n  at org.apache.spark.util.ClosureCleaner$.ensureSerializable(ClosureCleaner.scala:400)\n  ... 98 more\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635518627166_1681939860",
+      "id": "paragraph_1635518627166_1681939860",
+      "dateCreated": "2021-10-29 14:43:47.166",
+      "dateStarted": "2021-10-29 15:17:30.650",
+      "dateFinished": "2021-10-29 15:17:32.463",
+      "status": "ERROR"
+    },
+    {
+      "text": "val dfWordTfIdf \u003d dfWordIDF\n  .join(dfWordTF, Seq(\"Word\"), \"left\")\n  .withColumn(\"TFIDF\", col(\"TermFreq\") * col(\"IDF\"))\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:01:10.124",
+      "progress": 0,
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mdfWordTfIdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [Word: string, DocFreq: bigint ... 7 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635518150741_1079761782",
+      "id": "paragraph_1635518150741_1079761782",
+      "dateCreated": "2021-10-29 14:35:50.747",
+      "dateStarted": "2021-10-29 15:01:10.140",
+      "dateFinished": "2021-10-29 15:01:10.304",
+      "status": "FINISHED"
+    },
+    {
+      "text": "val denseTfIdf \u003d dfWordTfIdf.groupBy(\"index\")\n  .pivot(col(\"Word\"))\n  .agg(first(col(\"TFIDF\"), ignoreNulls \u003d true))\n  .na.fill(0.0)",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:01:14.774",
+      "progress": 0,
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mdenseTfIdf\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m \u003d [index: bigint, : double ... 98 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://90314f033e01:4040/jobs/job?id\u003d79"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635517923139_767057963",
+      "id": "paragraph_1635517923139_767057963",
+      "dateCreated": "2021-10-29 14:32:03.139",
+      "dateStarted": "2021-10-29 15:01:14.837",
+      "dateFinished": "2021-10-29 15:01:53.085",
+      "status": "FINISHED"
+    },
+    {
+      "text": "denseTfIdf.show(2)",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:01:19.022",
+      "progress": 0,
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "org.apache.spark.SparkException: Task not serializable\n  at org.apache.spark.util.ClosureCleaner$.ensureSerializable(ClosureCleaner.scala:403)\n  at org.apache.spark.util.ClosureCleaner$.org$apache$spark$util$ClosureCleaner$$clean(ClosureCleaner.scala:393)\n  at org.apache.spark.util.ClosureCleaner$.clean(ClosureCleaner.scala:162)\n  at org.apache.spark.SparkContext.clean(SparkContext.scala:2326)\n  at org.apache.spark.rdd.RDD$$anonfun$mapPartitionsWithIndex$1.apply(RDD.scala:872)\n  at org.apache.spark.rdd.RDD$$anonfun$mapPartitionsWithIndex$1.apply(RDD.scala:871)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:112)\n  at org.apache.spark.rdd.RDD.withScope(RDD.scala:385)\n  at org.apache.spark.rdd.RDD.mapPartitionsWithIndex(RDD.scala:871)\n  at org.apache.spark.sql.execution.WholeStageCodegenExec.doExecute(WholeStageCodegenExec.scala:630)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:131)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:155)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:152)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.exchange.ShuffleExchangeExec.prepareShuffleDependency(ShuffleExchangeExec.scala:92)\n  at org.apache.spark.sql.execution.exchange.ShuffleExchangeExec$$anonfun$doExecute$1.apply(ShuffleExchangeExec.scala:128)\n  at org.apache.spark.sql.execution.exchange.ShuffleExchangeExec$$anonfun$doExecute$1.apply(ShuffleExchangeExec.scala:119)\n  at org.apache.spark.sql.catalyst.errors.package$.attachTree(package.scala:52)\n  at org.apache.spark.sql.execution.exchange.ShuffleExchangeExec.doExecute(ShuffleExchangeExec.scala:119)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:131)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:155)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:152)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.InputAdapter.inputRDDs(WholeStageCodegenExec.scala:391)\n  at org.apache.spark.sql.execution.SortExec.inputRDDs(SortExec.scala:129)\n  at org.apache.spark.sql.execution.WholeStageCodegenExec.doExecute(WholeStageCodegenExec.scala:627)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:131)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:155)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:152)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.joins.SortMergeJoinExec.doExecute(SortMergeJoinExec.scala:150)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:131)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:155)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:152)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.InputAdapter.inputRDDs(WholeStageCodegenExec.scala:391)\n  at org.apache.spark.sql.execution.ProjectExec.inputRDDs(basicPhysicalOperators.scala:43)\n  at org.apache.spark.sql.execution.aggregate.HashAggregateExec.inputRDDs(HashAggregateExec.scala:151)\n  at org.apache.spark.sql.execution.aggregate.HashAggregateExec.inputRDDs(HashAggregateExec.scala:151)\n  at org.apache.spark.sql.execution.WholeStageCodegenExec.doExecute(WholeStageCodegenExec.scala:627)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:131)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:155)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:152)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.aggregate.HashAggregateExec$$anonfun$doExecute$1.apply(HashAggregateExec.scala:102)\n  at org.apache.spark.sql.execution.aggregate.HashAggregateExec$$anonfun$doExecute$1.apply(HashAggregateExec.scala:95)\n  at org.apache.spark.sql.catalyst.errors.package$.attachTree(package.scala:52)\n  at org.apache.spark.sql.execution.aggregate.HashAggregateExec.doExecute(HashAggregateExec.scala:95)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:131)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:155)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:152)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.exchange.ShuffleExchangeExec.prepareShuffleDependency(ShuffleExchangeExec.scala:92)\n  at org.apache.spark.sql.execution.exchange.ShuffleExchangeExec$$anonfun$doExecute$1.apply(ShuffleExchangeExec.scala:128)\n  at org.apache.spark.sql.execution.exchange.ShuffleExchangeExec$$anonfun$doExecute$1.apply(ShuffleExchangeExec.scala:119)\n  at org.apache.spark.sql.catalyst.errors.package$.attachTree(package.scala:52)\n  at org.apache.spark.sql.execution.exchange.ShuffleExchangeExec.doExecute(ShuffleExchangeExec.scala:119)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:131)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:155)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:152)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.aggregate.HashAggregateExec$$anonfun$doExecute$1.apply(HashAggregateExec.scala:102)\n  at org.apache.spark.sql.execution.aggregate.HashAggregateExec$$anonfun$doExecute$1.apply(HashAggregateExec.scala:95)\n  at org.apache.spark.sql.catalyst.errors.package$.attachTree(package.scala:52)\n  at org.apache.spark.sql.execution.aggregate.HashAggregateExec.doExecute(HashAggregateExec.scala:95)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:131)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:155)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:152)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.SparkPlan.getByteArrayRdd(SparkPlan.scala:247)\n  at org.apache.spark.sql.execution.SparkPlan.executeTake(SparkPlan.scala:339)\n  at org.apache.spark.sql.execution.CollectLimitExec.executeCollect(limit.scala:38)\n  at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$collectFromPlan(Dataset.scala:3389)\n  at org.apache.spark.sql.Dataset$$anonfun$head$1.apply(Dataset.scala:2550)\n  at org.apache.spark.sql.Dataset$$anonfun$head$1.apply(Dataset.scala:2550)\n  at org.apache.spark.sql.Dataset$$anonfun$52.apply(Dataset.scala:3370)\n  at org.apache.spark.sql.execution.SQLExecution$$anonfun$withNewExecutionId$1.apply(SQLExecution.scala:80)\n  at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:127)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:75)\n  at org.apache.spark.sql.Dataset.withAction(Dataset.scala:3369)\n  at org.apache.spark.sql.Dataset.head(Dataset.scala:2550)\n  at org.apache.spark.sql.Dataset.take(Dataset.scala:2764)\n  at org.apache.spark.sql.Dataset.getRows(Dataset.scala:254)\n  at org.apache.spark.sql.Dataset.showString(Dataset.scala:291)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:751)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:710)\n  ... 60 elided\nCaused by: java.io.NotSerializableException: org.apache.spark.sql.expressions.WindowSpec\nSerialization stack:\n\t- object not serializable (class: org.apache.spark.sql.expressions.WindowSpec, value: org.apache.spark.sql.expressions.WindowSpec@552c0414)\n\t- field (class: $iw, name: window, type: class org.apache.spark.sql.expressions.WindowSpec)\n\t- object (class $iw, $iw@21017a48)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@3a988594)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@69727593)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@71751985)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@5467165b)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@607d773c)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@67413b83)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@1b3e6d6d)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@6ee98f54)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@77abe614)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@672d880c)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@5cfef931)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@611d52ee)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@2266678a)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@79466ad8)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@6501102c)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@4b44056)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@bf4cf6f)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@73d323e6)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@1257bb15)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@2026dc0c)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@20527e32)\n\t- field (class: $iw, name: $iw, type: class $iw)\n\t- object (class $iw, $iw@5fd459f5)\n\t- field (class: $line322327388334.$read, name: $iw, type: class $iw)\n\t- object (class $line322327388334.$read, $line322327388334.$read@54b624e9)\n\t- field (class: $iw, name: $line322327388334$read, type: class $line322327388334.$read)\n\t- object (class $iw, $iw@734e5562)\n\t- field (class: $iw, name: $outer, type: class $iw)\n\t- object (class $iw, $iw@6f29546)\n\t- field (class: $anonfun$getIdf$1, name: $outer, type: class $iw)\n\t- object (class $anonfun$getIdf$1, \u003cfunction1\u003e)\n\t- element of array (index: 3)\n\t- array (class [Ljava.lang.Object;, size 4)\n\t- field (class: org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$13, name: references$1, type: class [Ljava.lang.Object;)\n\t- object (class org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$13, \u003cfunction2\u003e)\n  at org.apache.spark.serializer.SerializationDebugger$.improveException(SerializationDebugger.scala:40)\n  at org.apache.spark.serializer.JavaSerializationStream.writeObject(JavaSerializer.scala:46)\n  at org.apache.spark.serializer.JavaSerializerInstance.serialize(JavaSerializer.scala:100)\n  at org.apache.spark.util.ClosureCleaner$.ensureSerializable(ClosureCleaner.scala:400)\n  ... 162 more\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635518450098_1908326748",
+      "id": "paragraph_1635518450098_1908326748",
+      "dateCreated": "2021-10-29 14:40:50.098",
+      "dateStarted": "2021-10-29 15:01:53.169",
+      "dateFinished": "2021-10-29 15:01:54.066",
+      "status": "ERROR"
+    },
+    {
+      "text": "denseTfIdf\n  .coalesce(1)\n  .write\n  .option(\"header\", \"true\")\n  .option(\"sep\", \",\")\n  .csv(\"/notebook/result.csv\")",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 15:01:25.714",
+      "progress": 0,
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "org.apache.spark.sql.AnalysisException: path file:/notebook/result.csv already exists.;\n  at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:114)\n  at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult$lzycompute(commands.scala:104)\n  at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult(commands.scala:102)\n  at org.apache.spark.sql.execution.command.DataWritingCommandExec.doExecute(commands.scala:122)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:131)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$execute$1.apply(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$executeQuery$1.apply(SparkPlan.scala:155)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.sql.execution.SparkPlan.executeQuery(SparkPlan.scala:152)\n  at org.apache.spark.sql.execution.SparkPlan.execute(SparkPlan.scala:127)\n  at org.apache.spark.sql.execution.QueryExecution.toRdd$lzycompute(QueryExecution.scala:83)\n  at org.apache.spark.sql.execution.QueryExecution.toRdd(QueryExecution.scala:81)\n  at org.apache.spark.sql.DataFrameWriter$$anonfun$runCommand$1.apply(DataFrameWriter.scala:676)\n  at org.apache.spark.sql.DataFrameWriter$$anonfun$runCommand$1.apply(DataFrameWriter.scala:676)\n  at org.apache.spark.sql.execution.SQLExecution$$anonfun$withNewExecutionId$1.apply(SQLExecution.scala:80)\n  at org.apache.spark.sql.execution.SQLExecution$.withSQLConfPropagated(SQLExecution.scala:127)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:75)\n  at org.apache.spark.sql.DataFrameWriter.runCommand(DataFrameWriter.scala:676)\n  at org.apache.spark.sql.DataFrameWriter.saveToV1Source(DataFrameWriter.scala:285)\n  at org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:271)\n  at org.apache.spark.sql.DataFrameWriter.save(DataFrameWriter.scala:229)\n  at org.apache.spark.sql.DataFrameWriter.csv(DataFrameWriter.scala:664)\n  ... 60 elided\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635518508322_873260883",
+      "id": "paragraph_1635518508322_873260883",
+      "dateCreated": "2021-10-29 14:41:48.324",
+      "dateStarted": "2021-10-29 15:01:53.370",
+      "dateFinished": "2021-10-29 15:01:54.984",
+      "status": "ERROR"
+    },
+    {
+      "text": "",
+      "user": "anonymous",
+      "dateUpdated": "2021-10-29 14:28:15.101",
+      "progress": 0,
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1635517695050_1896472718",
+      "id": "paragraph_1635517695050_1896472718",
+      "dateCreated": "2021-10-29 14:28:15.051",
+      "status": "READY"
+    }
+  ],
+  "name": "New notebook",
+  "id": "2GP54Z3KF",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false
+  },
+  "info": {}
+}
